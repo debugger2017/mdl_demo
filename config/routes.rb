@@ -5,10 +5,6 @@ Rails.application.routes.draw do
 
   get 'static_pages/about'
 
-  resources :comments
-  resources :posts
-  resources :requests
-  resources :invitations
   get '/login', to: 'sessions#new'
 
   post '/login' , to: 'sessions#create' 
@@ -19,7 +15,14 @@ Rails.application.routes.draw do
 
   post '/request_respond' , to: 'requests#request_respond'  
 
+
+  resources :comments
+  resources :posts
+  resources :requests
+  resources :invitations
+  
   resources :groups
   resources :users
-  root 'users#index'
+  #root 'users#index'
+  root 'static_pages#home'
 end

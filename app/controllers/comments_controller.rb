@@ -18,8 +18,11 @@ class CommentsController < ApplicationController
 
   def create
     @comment = Comment.new(content: params[:comment][:content] , post_id: session[:post_id], user_id: current_user.id)
-    @comment.save
-    redirect_to comments_path
+    if @comment.save
+      redirect_to comments_path
+    else
+      redirect_to new_comment_path
+    end
   end
 
   def update

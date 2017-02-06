@@ -1,14 +1,12 @@
 require 'test_helper'
 
 class GroupsControllerTest < ActionDispatch::IntegrationTest
-  setup do
-    @group = groups(:one)
+  
+  def setup
+    @group = groups(:pace)
+    @user = users(:kartik)
   end
 
-  test "should get index" do
-    get groups_url
-    assert_response :success
-  end
 
   test "should get new" do
     get new_group_url
@@ -16,29 +14,38 @@ class GroupsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should create group" do
-    assert_difference('Group.count') do
-      post groups_url, params: { group: { name: @group.name } }
+    log_in_as(@user)
+    assert_not is_logged_in?
+    assert_difference 'Group.count' ,1 do
+      post users_path , params: { group:{ name: @group.name } }
     end
-
-    assert_redirected_to group_url(Group.last)
+    assert_redirected_to group_url(@group)
   end
 
   test "should show group" do
+    log_in_as(@user)
+    assert_not is_logged_in?
     get group_url(@group)
     assert_response :success
   end
 
   test "should get edit" do
+    log_in_as(@user)
+    assert_not is_logged_in?
     get edit_group_url(@group)
     assert_response :success
   end
 
   test "should update group" do
+    log_in_as(@user)
+    assert_not is_logged_in?
     patch group_url(@group), params: { group: { name: @group.name } }
     assert_redirected_to group_url(@group)
   end
 
   test "should destroy group" do
+    log_in_as(@user)
+    assert_not is_logged_in?
     assert_difference('Group.count', -1) do
       delete group_url(@group)
     end

@@ -1,4 +1,4 @@
-<% if logged_in? %>
+
 	<p id="notice"><%= notice %></p>
 	<p>
   		<strong>Name:</strong>
@@ -9,15 +9,3 @@
 	  <strong>Email:</strong>
   		<%= @user.email %>
 	</p>
-	<%= link_to 'Show', user_path(@user) %> |
-	<%= link_to 'Edit', edit_user_path(@user) %> |
-	<%= link_to 'Back', users_path %> |
-	<%= link_to 'Create group', new_group_path %> |
-	<%= link_to 'Join group', new_request_path %> |
-	<%= link_to 'My Groups', groups_path %> |
-	<%= link_to 'My Invitations', invitations_path %> |
-	<%= link_to 'My Requests', requests_path %> |
-	<%= link_to "Log out", logout_path, method: "delete" %>
-<%else%> 
-	<%= link_to 'Go to here', login_path %>
-<%end%>

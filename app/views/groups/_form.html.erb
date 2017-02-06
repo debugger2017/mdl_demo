@@ -1,11 +1,11 @@
-<%= form_for(@group , url: groups_path) do |f| %>
+<%= form_for(@group, url: groups_path ) do |f| %>
   <%= render 'shared/error_messages_groups' %>
-
   <div class="field">
     <%= f.label :name %>
-    <%= f.text_field :name %>
+    <%= f.text_field :name , class: 'form-control'%>
   </div>
+
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit "Create Group" , class: 'btn btn-primary' %>
   </div>
 <% end %>

@@ -5,7 +5,48 @@
       <ul class="nav navbar-nav navbar-right">
         <li><%= link_to "Home",   static_pages_home_path %></li>
         <li><%= link_to "Help",   static_pages_help_path %></li>
-        <li><%= link_to "Log in", login_path %></li>
+        <% if logged_in? %>
+          <li><%= link_to "Users", users_path %></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              Account <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+              <li><%= link_to "View Profile", current_user %></li>
+              <li><%= link_to "Edit Profile", edit_user_path(current_user) %></li>
+              <li class="divider"></li>
+              <li>
+                <%= link_to "Log out", logout_path, method: "delete" %>
+              </li>
+            </ul>
+          </li>
+
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              Groups <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+              <li><%= link_to "Create Group", groups_path %></li>
+              <li><%= link_to "Join Group", new_request_path %></li>
+              <li><%= link_to "My Groups", groups_path %></li>
+            </ul>
+          </li>
+
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              Notifications <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+              <% no_of_invitations = Invitation.joins("INNER JOIN users ON receiver_id = users.id").where(receiver_id: current_user.id , is_accepted: nil).count %>
+              <li><%= link_to "Invitations[#{no_of_invitations}]", invitations_path %></li>
+              
+              <% no_of_requests = Request.joins("INNER JOIN memberships ON requests.group_id = memberships.group_id").where("memberships.is_admin=true AND memberships.user_id = #{current_user.id} AND requests.is_granted IS NULL").count %>
+              <li><%= link_to "Requests[#{no_of_requests}]", requests_path %></li>
+            </ul>
+          </li>
+        <% else %>
+          <li><%= link_to "Log in", login_path %></li>
+        <% end %>
       </ul>
     </nav>
   </div>

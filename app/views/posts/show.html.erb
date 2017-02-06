@@ -6,8 +6,8 @@
 </p>
 
 <p>
-  <strong>Membership:</strong>
-  <%= @post.membership_id %>
+  <strong>Posted by:</strong>
+  <%= @user['name'] %>
 </p>
 
 <%= link_to 'Edit', edit_post_path(@post) %> |

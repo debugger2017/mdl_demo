@@ -1,11 +1,11 @@
-<%= form_for(@post , url: posts_path) do |f| %>
+<%= form_for(@post, url: posts_path ) do |f| %>
   <%= render 'shared/error_messages_posts' %>
   <div class="field">
     <%= f.label :content %>
-    <%= f.text_area :content %>
+    <%= f.text_field :content , class: 'form-control'%>
   </div>
 
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit "New Post" , class: 'btn btn-primary' %>
   </div>
 <% end %>

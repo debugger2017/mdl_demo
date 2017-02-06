@@ -6,6 +6,8 @@ class User < ApplicationRecord
 
 	validates :password, presence: true, length: { minimum: 6 }	
 
+	has_secure_password
+
 	has_many :memberships , dependent: :destroy
 	has_many :groups , :through => :memberships, dependent: :destroy
 	has_many :invites , :class_name => 'Invitation' , :foreign_key => 'sender_id' , dependent: :destroy

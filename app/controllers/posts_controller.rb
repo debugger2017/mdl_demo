@@ -1,12 +1,13 @@
 class PostsController < ApplicationController
  
   def index
-    @posts = Post.all
+    @posts = Post.all.order(created_at: :desc)
   end
 
   def show
     @post = Post.find_by(id: params[:id])
     session[:post_id] = params[:id]
+    @user = User.joins(:memberships).joins("INNER JOIN posts ON memberships.id=posts.membership_id").select(:id,:name).first
   end
 
   def new

@@ -1,0 +1,17 @@
+
+    <% @invitations.each do |invitation| %>
+    <ul>
+     <li>
+      <div class="actions">
+        <%= form_for(:invite,url: respond_path) do |f| %>
+          <%= invitation['group_id'] %>
+          <%= f.hidden_field :id, :value => invitation['id'].to_i%>
+          <%= f.hidden_field :group_id, :value => invitation['group_id'].to_i%>
+          <%= f.submit "Yes", class: "btn btn-primary" %>
+          <%= f.submit "No", class: "btn btn-primary" %>
+        <% end %>
+      </div>
+    </li>
+  </ul>
+    <% end %>
+

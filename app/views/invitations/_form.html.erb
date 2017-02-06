@@ -1,0 +1,14 @@
+<% people = User.all %>
+  <% people.each do |user| %>
+  <ul>
+    <li>
+      <div class="actions">
+        <%= form_for(:invite , url: invitations_path) do |f| %>
+          <%= f.hidden_field :receiver_id, :value => user.id%>
+          <%= user.name %>
+          <%= f.submit %>
+        <% end %>
+      </div>
+    </li>
+  </ul>
+  <% end %>

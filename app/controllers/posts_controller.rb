@@ -20,8 +20,8 @@ class PostsController < ApplicationController
  
   def create
     @membership_id = Membership.select(:id).where(user_id: current_user.id, group_id: session[:group_id]).first
-    @post = Post.new(content: params[:post][:content],membership_id: @membership_id['id'])
-    @post.save
+    @new_post = Post.new(content: params[:post][:content],membership_id: @membership_id['id'])
+    @new_post.save
     redirect_to posts_path
   end
 

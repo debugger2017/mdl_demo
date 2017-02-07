@@ -7,13 +7,15 @@ class GroupsController < ApplicationController
 
   def show
     session[:group_id] = params[:id]
-    @posts = Membership.joins(:group).where(group_id: session[:group_id]).joins("INNER JOIN posts ON memberships.id = posts.membership_id").select("posts.content , posts.created_at,memberships.user_id").order("posts.created_at DESC")
+    @posts = Membership.joins(:group).where(group_id: session[:group_id]).joins("INNER JOIN posts ON memberships.id = posts.membership_id").select("posts.id,posts.content , posts.created_at,memberships.user_id").order("posts.created_at DESC")
     @post = Post.new
+    @comment = Comment.new
   end
 
   
   def new
     @group = Group.new
+
   end
 
   def edit

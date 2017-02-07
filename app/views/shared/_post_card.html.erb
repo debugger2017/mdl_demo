@@ -36,10 +36,13 @@
                     </div>
                     <div class="modal-body">
                       <ul class = "none">
-                        <li> <%= link_to(image_tag("img_avatar.jpg" , :width => 30, :height => 30))%> <%=link_to "Manish Nikam" , '#'%>  This is awesome. </li> 
-                          <div class = "comment-time" <h5><i>posted 1 hour ago.</i></h5></div>
-                        <br>
-                        <li> <%= link_to(image_tag("img_avatar.jpg" , :width => 30, :height => 30))%> <%= link_to "Mrunal Selokar" , '#'%>  Cool!!! </li>
+                        <% comments = Comment.select(:id,:content,:user_id,:created_at).where(post_id: post['id']).order(created_at: :desc)
+                         %>
+                        <% comments.each do |comment| %>
+                            <% user_name = User.select(:name).where(id: comment['user_id']).first %>
+                            <li> <%= user_name['name']%> <%=comment['content'] %>
+                            </li>
+                        <% end %>
                       </ul>
                     </div>
                     <div class="modal-footer">
@@ -52,13 +55,17 @@
       </div>
 
       <div class="card-block"> 
-        <%= form_for(:invite,url: '#') do |f| %>
-          &nbsp;<%= f.label :Comment %>
-          <%= f.text_field :content , class: 'form-control' , placeholder: "Write comment" %>
-          <div class = "submit-btn">
-            <%= f.submit "Submit Comment" , class: 'btn btn-primary' %>
-          </div>
-        <%end%>
+       <%= form_for(@comment) do |f| %>
+          <%= render 'shared/error_messages_comments' %>
+         <div class="field">
+            <%= f.label :content %>
+            <%= f.text_field :content , class: 'form-control'%>
+            <%= f.hidden_field :post_id, :value => post['id'].to_i %>
+        </div>
+        <div class="actions">
+          <%= f.submit "New Comment" , class: 'btn btn-primary' %>
+        </div>
+      <% end %>
       </div>
   </div>
 <%end%>

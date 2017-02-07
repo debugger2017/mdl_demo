@@ -20,13 +20,14 @@ class CommentsController < ApplicationController
   end
 
   def create
-    @comment = Comment.new(content: params[:comment][:content] , post_id: session[:post_id], user_id: current_user.id)
+    @comment = Comment.new(content: params[:comment][:content] , post_id: params[:comment][:post_id], user_id: current_user.id)
+    @group = Group.find_by(id:session[:group_id])
     if @comment.save
       flash[:success] = "Your comment is saved."
-      redirect_to comments_path
+      redirect_to group_path @group
     else
       flash[:danger] = "Your comment is not saved."
-      redirect_to new_comment_path
+      redirect_to group_path @group
     end
   end
 

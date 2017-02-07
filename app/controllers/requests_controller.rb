@@ -12,7 +12,7 @@ class RequestsController < ApplicationController
 
   # GET /requests/new
   def new
-    @requests = Group.joins(:memberships).joins("INNER JOIN users ON memberships.user_id=users.id AND users.id != #{current_user.id}").select(:id,:name).distinct
+    @requests = Group.select(:id,:name).where.not(id:Group.select(:id).where(id:Membership.select(:group_id).where(user_id:current_user.id)))
   end
 
   # GET /requests/1/edit

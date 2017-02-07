@@ -3,11 +3,14 @@
      <li>
       <div class="actions">
         <%= form_for(:request,url: requests_path) do |f| %>
+          
           <%= request['name'] %>
           <%= f.hidden_field :group_id, :value => request['id'].to_i%>
-          <td>
-          <%= f.submit "Join", class: "btn btn-primary" %>
-          </td>
+          <span>
+          <div class = "sub-btn">
+            <%= f.submit "Join", class: "btn btn-primary" %>
+          </div>
+          </span>
         <% end %>
       </div>
     </li>

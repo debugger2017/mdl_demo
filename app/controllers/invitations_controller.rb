@@ -6,7 +6,7 @@ class InvitationsController < ApplicationController
 
   def show
   end
-
+  
   def new   
     @invites = User.select(:id,:name).where(id:Membership.select(:user_id).where.not(group_id:session[:group_id],user_id: current_user.id))
   end

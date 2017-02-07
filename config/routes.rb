@@ -24,5 +24,6 @@ Rails.application.routes.draw do
   resources :groups
   resources :users
   #root 'users#index'
-  root 'static_pages#home'
+  #root 'static_pages#home'
+  root 'static_pages#practice'
 end

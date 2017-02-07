@@ -24,10 +24,11 @@ class PostsController < ApplicationController
   def create
     @membership_id = Membership.select(:id).where(user_id: current_user.id, group_id: session[:group_id]).first
     @new_post = Post.new(content: params[:post][:content],membership_id: @membership_id['id'])
+    @group = Group.find_by(id: session[:group_id])
     if @new_post.save
-      redirect_to posts_path
+      redirect_to group_path @group
     else
-      redirect_to new_post_path
+      redirect_to group_path @group
     end
   end
 

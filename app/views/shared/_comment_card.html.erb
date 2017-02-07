@@ -1,0 +1,9 @@
+<div class="card-block"> 
+        <%= form_for(:invite,url: '#') do |f| %>
+          &nbsp;<%= f.label :Comment %>
+          <%= f.text_field :content , class: 'form-control' , placeholder: "Write comment" %>
+          <div class = "submit-btn">
+            <%= f.submit "Submit Comment" , class: 'btn btn-primary' %>
+          </div>
+        <%end%>
+</div>

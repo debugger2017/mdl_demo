@@ -1,11 +1,47 @@
-<%= form_for(@post, url: posts_path ) do |f| %>
-  <%= render 'shared/error_messages_posts' %>
-  <div class="field">
-    <%= f.label :content %>
-    <%= f.text_field :content , class: 'form-control'%>
+<div class="card text-center">
+  <div class="card-header">
+    <ul class="nav nav-tabs card-header-tabs">
+      <li class="nav-item">
+      		
+        <a class="btn btn-primary btn-sm" href="#"><i class="fa fa-pencil" aria-hidden="true"></i>Active</a>
+      </li>
+      <li class="nav-item">
+        <a class="btn btn-primary btn-sm" href="#">Link</a>
+      </li>
+      <li class="nav-item">
+        <a class="btn btn-primary btn-sm" href="#">Disabled</a>
+      </li>
+    </ul>
   </div>
 
-  <div class="actions">
-    <%= f.submit "New Post" , class: 'btn btn-primary' %>
+  <div class="card-block">
+    <%= form_for(@post, url: posts_path ) do |f| %>
+  		<%= render 'shared/error_messages_posts' %>
+		 <div class="field">
+		   <%= f.text_area :content , class: 'form-control' , placeholder: "Write something.."%>
+		 </div>
+		 <div class="actions">
+		    <%= f.submit "New Post" , class: 'btn btn-primary' %>
+		 </div>
+	<% end %>
   </div>
-<% end %>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

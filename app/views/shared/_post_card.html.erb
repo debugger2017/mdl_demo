@@ -1,0 +1,64 @@
+<% @posts.each do |post| %>
+  <%user = User.select(:name).where(id:post['user_id']).first %>
+  <div class="card">
+      <div class = "card-header">
+          <%= link_to(image_tag("img_avatar.jpg" , :width => 50, :height => 50)) %>
+          <span class = "user_name">
+            <b><%= user['name'] %> </b>
+          </span>
+
+          <span class = "post_time">
+            posted <i><%= time_ago_in_words(post['created_at'])%> ago.</i>
+          </span>  
+      </div> 
+
+      <div class="card-block"> 
+        <h4 class="card-title"><b>Ruby is not good </b> </h4>
+        <p class="card-text">
+          <%= post['content'] %>
+        </p>
+      </div>
+      
+      <div class = "list-group-item">
+        <div class="card-container">
+              <!-- Trigger the modal with a button -->
+              <button type="button" class="btn btn-info btn-sm btn-pink" data-toggle="modal" data-target="#myLikes"><span class="glyphicon glyphicon-thumbs-up"></span>Likes</button>
+              <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">Comments</button>
+              <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myShares">Share</button>
+
+              <!-- Modal -->
+              <div class="modal fade" id="myModal" role="dialog">
+                <div class="modal-dialog modal-lr">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                      <h4 class="modal-title">Comments</h4>
+                    </div>
+                    <div class="modal-body">
+                      <ul class = "none">
+                        <li> <%= link_to(image_tag("img_avatar.jpg" , :width => 30, :height => 30))%> <%=link_to "Manish Nikam" , '#'%>  This is awesome. </li> 
+                          <div class = "comment-time" <h5><i>posted 1 hour ago.</i></h5></div>
+                        <br>
+                        <li> <%= link_to(image_tag("img_avatar.jpg" , :width => 30, :height => 30))%> <%= link_to "Mrunal Selokar" , '#'%>  Cool!!! </li>
+                      </ul>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        </div>
+      </div>
+
+      <div class="card-block"> 
+        <%= form_for(:invite,url: '#') do |f| %>
+          &nbsp;<%= f.label :Comment %>
+          <%= f.text_field :content , class: 'form-control' , placeholder: "Write comment" %>
+          <div class = "submit-btn">
+            <%= f.submit "Submit Comment" , class: 'btn btn-primary' %>
+          </div>
+        <%end%>
+      </div>
+  </div>
+<%end%>

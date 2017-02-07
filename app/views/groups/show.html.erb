@@ -1,10 +1,8 @@
-<p id="notice"><%= notice %></p>
-<p>
-  <strong>Name:</strong>
-  <%= @group.name %>
-  <%#= @user.name %>
-</p>
-<%= link_to 'Edit', edit_group_path(@group) %> |
-<%= link_to 'Back', groups_path %> | 
-<%= link_to 'Add people', new_invitation_path %> |
-<%= link_to 'View posts', new_post_path %>
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+  	<%= render 'posts/form', post: @post %>
+  	<%= render 'shared/post_card' , post: @post %>  
+  </div>
+</div>  
+      
+

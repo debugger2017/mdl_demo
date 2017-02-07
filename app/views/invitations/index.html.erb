@@ -5,7 +5,8 @@
      <li>
       <div class="actions">
         <%= form_for(:invite,url: respond_path) do |f| %>
-          <%= invitation['group_id'] %>
+          <% group_name = Group.select(:name).where(id:invitation['group_id']).first %>
+          A invitation from group <%= group_name['name']%>
           <%= f.hidden_field :id, :value => invitation['id'].to_i%>
           <%= f.hidden_field :group_id, :value => invitation['group_id'].to_i%>
           <%= f.submit "Yes", class: "btn btn-primary" %>

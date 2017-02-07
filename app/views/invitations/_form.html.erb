@@ -1,14 +1,16 @@
-<% people = User.all %>
-  <% people.each do |user| %>
+<% @invites.each do |invitee| %>
   <ul>
-    <li>
+     <li>
       <div class="actions">
-        <%= form_for(:invite , url: invitations_path) do |f| %>
-          <%= f.hidden_field :receiver_id, :value => user.id%>
-          <%= user.name %>
-          <%= f.submit %>
+        <%= form_for(:invite,url: invitations_path) do |f| %>
+          <%= invitee['name'] %>
+          <%= f.hidden_field :receiver_id , :value => invitee['id'] %>
+          <%= f.hidden_field :group_id, :value => session[:group_id].to_i%>
+          <td>
+          <%= f.submit "Join", class: "btn btn-primary" %>
+          </td>
         <% end %>
       </div>
     </li>
   </ul>
-  <% end %>
+<% end %>

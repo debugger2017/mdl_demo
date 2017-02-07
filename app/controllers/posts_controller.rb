@@ -7,11 +7,13 @@ class PostsController < ApplicationController
   def show
     @post = Post.find_by(id: params[:id])
     session[:post_id] = params[:id]
-    @user = User.joins(:memberships).joins("INNER JOIN posts ON memberships.id=posts.membership_id").select(:id,:name).first
+    m_id = Post.select(:membership_id).where(id:params[:id]).first
+    @user = User.select(:name).where(id:Membership.select(:user_id).where(id:m_id['membership_id'])).first
   end
 
   def new
     @post = Post.new
+    @posts = Post.all.order(created_at: :desc)
   end
 
  

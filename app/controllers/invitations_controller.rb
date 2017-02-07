@@ -1,54 +1,32 @@
 class InvitationsController < ApplicationController
   
-  # GET /invitations
-  # GET /invitations.json
   def index
     @invitations = Invitation.joins("INNER JOIN users ON receiver_id = users.id").where(receiver_id: current_user.id , is_accepted: nil)
   end
 
-  # GET /invitations/1
-  # GET /invitations/1.json
   def show
   end
 
-  # GET /invitations/new
-  def new
-   
-    @invitation = Invitation.new
+  def new   
+    @invites = User.select(:id,:name).where(id:Membership.select(:user_id).where.not(group_id:session[:group_id],user_id: current_user.id))
   end
 
-  # GET /invitations/1/edit
   def edit
   end
 
-  # POST /invitations
-  # POST /invitations.json
   def create
     @invitation = Invitation.new(sender_id: current_user.id , receiver_id: params[:invite][:receiver_id] , group_id: session[:group_id])
-    respond_to do |format|
-      if @invitation.save
-        format.html { redirect_to @invitation, notice: 'Invitation was successfully created.' }
-        format.json { render :show, status: :created, location: @invitation }
-      else
-        format.html { render :new }
-        format.json { render json: @invitation.errors, status: :unprocessable_entity }
-      end
+    if @invitation.save
+      flash[:success] = "Invitation sent successfully"
+    else
+      flash[:danger] = "Invitation not sent."
     end
   end
 
-  # PATCH/PUT /invitations/1
-  # PATCH/PUT /invitations/1.json
   def update
   end
 
-  # DELETE /invitations/1
-  # DELETE /invitations/1.json
   def destroy
-    @invitation.destroy
-    respond_to do |format|
-      format.html { redirect_to invitations_url, notice: 'Invitation was successfully destroyed.' }
-      format.json { head :no_content }
-    end
   end
 
   def respond
@@ -60,6 +38,4 @@ class InvitationsController < ApplicationController
       membership.save
     end
   end
-
-
 end

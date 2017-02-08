@@ -3,53 +3,42 @@ require 'test_helper'
 class GroupsControllerTest < ActionDispatch::IntegrationTest
   
   def setup
-    @group = groups(:pace)
+    @group = groups(:st)
     @user = users(:kartik)
   end
 
 
-  test "should get new" do
-    get new_group_url
-    assert_response :success
+  test "should get new after login" do
+    get login_path
+    assert_template 'sessions/new'
+    post login_path , params:{session:{email: @user.email,password:"believe"}}  
+    assert_redirected_to @user
+    get groups_path
+    assert_template 'groups/index'
   end
-
-  test "should create group" do
-    log_in_as(@user)
-    assert_not is_logged_in?
+  
+  test "should create group after valid login" do
+    get login_path
+    assert_template 'sessions/new'
+    post login_path , params:{session:{email: @user.email,password:"believe"}}  
+    assert is_logged_in?
+    assert_redirected_to @user
+    get new_group_path
+    assert_template 'groups/new'
     assert_difference 'Group.count' ,1 do
-      post users_path , params: { group:{ name: @group.name } }
+      post groups_path , params: {group:{name: "gh"}}
     end
-    assert_redirected_to group_url(@group)
+    follow_redirect!
+    assert_template 'groups/show'
   end
 
-  test "should show group" do
-    log_in_as(@user)
-    assert_not is_logged_in?
-    get group_url(@group)
-    assert_response :success
-  end
-
-  test "should get edit" do
-    log_in_as(@user)
-    assert_not is_logged_in?
-    get edit_group_url(@group)
-    assert_response :success
-  end
-
-  test "should update group" do
-    log_in_as(@user)
-    assert_not is_logged_in?
-    patch group_url(@group), params: { group: { name: @group.name } }
-    assert_redirected_to group_url(@group)
-  end
-
-  test "should destroy group" do
-    log_in_as(@user)
-    assert_not is_logged_in?
-    assert_difference('Group.count', -1) do
-      delete group_url(@group)
-    end
-
-    assert_redirected_to groups_url
+  test "should get index after valid login" do
+    get login_path
+    assert_template 'sessions/new'
+    post login_path , params:{session:{email: @user.email,password:"believe"}}  
+    assert is_logged_in?
+    assert_redirected_to @user
+    get groups_path
+    assert_template 'groups/index'
   end
 end

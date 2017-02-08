@@ -1,5 +1,5 @@
 class CommentsController < ApplicationController
-
+  before_action :logged_in_user , only: [:show,:edit,:update,:destroy,:index,:new,:create]
   def index
     @comments = Comment.all.order(created_at: :desc)
   end

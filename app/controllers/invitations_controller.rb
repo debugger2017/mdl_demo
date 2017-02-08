@@ -1,5 +1,5 @@
 class InvitationsController < ApplicationController
-  
+  before_action :logged_in_user , only: [:show,:edit,:update,:destroy,:index,:new,:respond]
   def index
     @invitations = Invitation.joins("INNER JOIN users ON receiver_id = users.id").where(receiver_id: current_user.id , is_accepted: nil)
   end
@@ -8,7 +8,7 @@ class InvitationsController < ApplicationController
   end
   
   def new   
-    @invites = User.select(:id,:name).where(id:Membership.select(:user_id).where.not(group_id:session[:group_id],user_id: current_user.id))
+    @invites = User.select(:id,:name).where.not(id:Membership.select(:user_id).where(group_id:session[:group_id]))
   end
 
   def edit

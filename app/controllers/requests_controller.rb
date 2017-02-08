@@ -1,54 +1,31 @@
 class RequestsController < ApplicationController
-  # GET /requests
-  # GET /requests.json
+  before_action :logged_in_user , only: [:show,:edit,:update,:destroy,:request_respond,:index,:request_respond]
   def index
     @requests = Request.joins("INNER JOIN memberships ON requests.group_id = memberships.group_id").select(:id,:group_id,:sender_id).where("memberships.is_admin=true AND memberships.user_id = #{current_user.id} AND requests.is_granted IS NULL")
   end
 
-  # GET /requests/1
-  # GET /requests/1.json
+  
   def show
   end
 
-  # GET /requests/new
   def new
     @requests = Group.select(:id,:name).where.not(id:Group.select(:id).where(id:Membership.select(:group_id).where(user_id:current_user.id)))
   end
 
-  # GET /requests/1/edit
   def edit
   end
 
-  # POST /requests
-  # POST /requests.json
+  
   def create
     @request = Request.new(sender_id: current_user.id , group_id: params[:request][:group_id])
     @request.save
     redirect_to new_request_path
   end
 
-  # PATCH/PUT /requests/1
-  # PATCH/PUT /requests/1.json
   def update
-    respond_to do |format|
-      if @request.update(request_params)
-        format.html { redirect_to @request, notice: 'Request was successfully updated.' }
-        format.json { render :show, status: :ok, location: @request }
-      else
-        format.html { render :edit }
-        format.json { render json: @request.errors, status: :unprocessable_entity }
-      end
-    end
   end
 
-  # DELETE /requests/1
-  # DELETE /requests/1.json
   def destroy
-    @request.destroy
-    respond_to do |format|
-      format.html { redirect_to requests_url, notice: 'Request was successfully destroyed.' }
-      format.json { head :no_content }
-    end
   end
 
   def request_respond
@@ -62,7 +39,4 @@ class RequestsController < ApplicationController
       request.update_attributes(is_granted: false)
     end
   end
-
-
-  
 end

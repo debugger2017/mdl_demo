@@ -3,46 +3,44 @@ require 'test_helper'
 class UsersControllerTest < ActionDispatch::IntegrationTest
   setup do
     @user = users(:kartik)
+    @group = groups(:pace)
   end
 
-  test "should get index" do
-    get users_url
-    assert_response :success
+  test "should get index after valid login" do
+    get login_path
+    assert_template 'sessions/new'
+    post login_path , params:{session:{email: @user.email,password:"believe"}}
+    assert_redirected_to @user
+    get users_path
+    assert_template 'users/index'
   end
 
-  test "should get new" do
-    get new_user_url
-    assert_response :success
+  test "should redirect index after invalid login" do
+    get login_path
+    assert_template 'sessions/new'
+    post login_path , params:{session:{email:"",password:""}}
+    assert_template 'sessions/new'
+  end
+  
+  test "should show after valid login" do
+    get login_path
+    assert_template 'sessions/new'
+    post login_path , params:{session:{email: @user.email,password:"believe"}}
+    assert_redirected_to @user
   end
 
-  test "should create user" do
-    assert_difference('User.count') do
-      post users_url, params: { user: { email: @user.email, name: @user.name , password: "foobar" , password_confirmation: "foobar"}  }
+  test "should create group after valid login" do
+    get login_path
+    assert_template 'sessions/new'
+    post login_path , params:{session:{email: @user.email,password:"believe"}}
+    assert_redirected_to @user
+    get groups_path
+    assert_template 'groups/index'
+    get new_group_path
+    assert_difference 'Group.count' ,1 do
+      post groups_path , params: {group:{ name: "pace" }}
     end
 
-    assert_redirected_to user_url(User.last)
   end
 
-  test "should show user" do
-    get user_url(@user)
-    assert_response :success
-  end
-
-  test "should get edit" do
-    get edit_user_url(@user)
-    assert_response :success
-  end
-
-  test "should update user" do
-    patch user_url(@user), params: { user: { email: @user.email, name: @user.name } }
-    assert_redirected_to user_url(@user)
-  end
-
-  test "should destroy user" do
-    assert_difference('User.count', -1) do
-      delete user_url(@user)
-    end
-
-    assert_redirected_to users_url
-  end
 end

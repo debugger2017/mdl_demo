@@ -1,6 +1,8 @@
 class GroupsController < ApplicationController
+  before_action :logged_in_user , only: [:show,:edit,:update,:destroy,:index,:new,:create]
   before_action :set_group, only: [:show, :edit, :update, :destroy]
-
+  
+  
   def index
     @groups = Group.joins(:memberships).where("memberships.user_id=#{current_user.id}")
   end

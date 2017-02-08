@@ -1,3 +1,6 @@
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+
 <% @invites.each do |invitee| %>
   <ul>
      <li>
@@ -6,11 +9,13 @@
           <%= invitee['name'] %>
           <%= f.hidden_field :receiver_id , :value => invitee['id'] %>
           <%= f.hidden_field :group_id, :value => session[:group_id].to_i%>
-          <td>
-          <%= f.submit "Join", class: "btn btn-primary" %>
-          </td>
+          <div class = "sub-btn">
+          <%= f.submit "Invite", class: "btn btn-primary" %>
+          </div>
         <% end %>
       </div>
     </li>
   </ul>
 <% end %>
+</div>
+</div>

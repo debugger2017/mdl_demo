@@ -1,5 +1,7 @@
 <p id="notice"><%= notice %></p>
 
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
 <h1>Requests</h1>
     <% @requests.each do |request| %>
     <ul>
@@ -13,10 +15,16 @@
           <%= f.hidden_field :request_id, :value => request['id'].to_i%>
           <%= f.hidden_field :group_id, :value => group['id'].to_i%>
           <%= f.hidden_field :sender_id, :value => user['id'].to_i%>
-          <%= f.submit "Yes", class: "btn btn-primary" %>
-          <%= f.submit "No", class: "btn btn-primary" %>
+          <div class = "sub-btn">
+            <%= f.submit "Yes", class: "btn btn-primary" %>
+          </div>
+          <div class = "sub-btn">
+            <%= f.submit "No", class: "btn btn-primary" %>
+          </div>
         <% end %>
       </div>
     </li>
   </ul>
     <% end %>
+  </div>
+  </div>

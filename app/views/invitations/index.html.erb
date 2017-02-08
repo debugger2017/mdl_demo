@@ -1,3 +1,6 @@
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+
 <h1>Invitations</h1>
 
     <% @invitations.each do |invitation| %>
@@ -9,11 +12,16 @@
           A invitation from group <%= group_name['name']%>
           <%= f.hidden_field :id, :value => invitation['id'].to_i%>
           <%= f.hidden_field :group_id, :value => invitation['group_id'].to_i%>
-          <%= f.submit "Yes", class: "btn btn-primary" %>
-          <%= f.submit "No", class: "btn btn-primary" %>
+          <div class = "sub-btn">
+            <%= f.submit "Yes", class: "btn btn-primary" %>
+          </div>
+          <div class = "sub-btn">
+            <%= f.submit "No", class: "btn btn-primary" %>
+          </div>
         <% end %>
       </div>
     </li>
   </ul>
     <% end %>
-
+</div>
+</div>

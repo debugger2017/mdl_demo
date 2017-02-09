@@ -1,5 +1,7 @@
 class PostsController < ApplicationController
   before_action :logged_in_user , only: [:show,:edit,:update,:destroy,:index,:new,:create]
+  before_action :correct_user , only: [:show,:edit,:destroy]
+
   def index
     @posts = Post.all.order(created_at: :desc)
   end
@@ -42,5 +44,17 @@ class PostsController < ApplicationController
     @post = Post.find_by(id: params[:id])
     @post.destroy 
     redirect_to posts_path   
+  end
+
+  private 
+
+  def correct_user
+      post = Post.find_by(id:params[:id])
+      group = Membership.select(:group_id).where(id:post[:membership_id]).first
+      member = Membership.find_by(user_id:current_user.id , group_id: group['group_id'])
+      if member.nil?
+          flash[:danger] = "You are not member of this group,please join"
+          redirect_to new_request_path
+      end
   end
 end

@@ -1,7 +1,7 @@
 class GroupsController < ApplicationController
   before_action :logged_in_user , only: [:show,:edit,:update,:destroy,:index,:new,:create]
   before_action :set_group, only: [:show, :edit, :update, :destroy]
-  
+  before_action :correct_user , only: [:show, :edit, :update, :destroy] 
   
   def index
     @groups = Group.joins(:memberships).where("memberships.user_id=#{current_user.id}")
@@ -68,5 +68,13 @@ class GroupsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def group_params
        params.require(:group).permit(:name)
+    end
+
+    def correct_user
+      member = Membership.find_by(user_id: current_user.id , group_id: params[:id])
+      if member.nil?
+        flash[:danger] = "You are not member of this group,please join"
+        redirect_to new_request_path
+      end
     end
 end

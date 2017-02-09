@@ -2,7 +2,7 @@
   <%user = User.select(:name).where(id:post['user_id']).first %>
   <div class="card">
       <div class = "card-header">
-          <%= link_to(image_tag("img_avatar.jpg" , :width => 50, :height => 50)) %>
+          <%= link_to(image_tag("" , :width => 50, :height => 50)) %>
           <span class = "user_name">
             <b><%= user['name'] %> </b>
           </span>
@@ -13,9 +13,9 @@
       </div> 
 
       <div class="card-block"> 
-        <h4 class="card-title"><b>Ruby is not good </b> </h4>
+        
         <p class="card-text">
-          <%= post['content'] %>
+          <b><%= post['content'] %></b>
         </p>
       </div>
       
@@ -23,11 +23,11 @@
         <div class="card-container">
               <!-- Trigger the modal with a button -->
               <button type="button" class="btn btn-info btn-sm btn-pink" data-toggle="modal" data-target="#myLikes"><span class="glyphicon glyphicon-thumbs-up"></span>Likes</button>
-              <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">Comments</button>
+              <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target=<%= "#myModal#{post['id']}"%>>Comments</button>
               <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myShares">Share</button>
 
               <!-- Modal -->
-              <div class="modal fade" id="myModal" role="dialog">
+              <div class="modal fade" id=<%= "myModal#{post['id']}"%> role="dialog">
                 <div class="modal-dialog modal-lr">
                   <div class="modal-content">
                     <div class="modal-header">
@@ -36,7 +36,7 @@
                     </div>
                     <div class="modal-body">
                       <ul class = "none">
-                        <% comments = Comment.select(:id,:content,:user_id,:created_at).where(post_id: post['id']).order(created_at: :desc)
+                        <% comments = Comment.select(:id,:content,:user_id,:created_at).where(post_id: post['id'].to_i).order(created_at: :desc)
                          %>
                         <% comments.each do |comment| %>
                             <% user_name = User.select(:name).where(id: comment['user_id']).first %>
